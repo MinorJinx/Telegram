@@ -16,9 +16,12 @@ def readFile(filename, col): # Opens input file, appends all items to jobs[], ca
 	file = open(filename, encoding='utf-8')
 	reader = csv.reader(file)
 	for item in reader:
-		if item[col]:
-			for url in item[col].split(','):
-				jobs.append(url)
+		try:
+			if item[col]:
+				for url in item[col].split(','):
+					jobs.append(url)
+		except:
+			pass
 	file.close()
 	
 	print(str(len(jobs)) + " URLs found.\n")
@@ -79,5 +82,5 @@ validUrls = []
 queue = Queue()
 
 readFile(input, col)
-
+print('Valid Urls:', count)
 saveOutput(validUrls)
