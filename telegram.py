@@ -89,11 +89,19 @@ for title, username, members, topID in zip(groupTitles, groupUsernames, groupMem
 		offset = 101
 		minimum = 0
 		
-	# If log file exists, retrieve last message ID and store in minimum.
+	# If log file exists, update the 'groupMembers' and 'groupMessages' cells
+	# Also retrieve last message ID and store in 'minimum'
 	else:
 		with open(logFile, 'r', encoding='utf-8') as f:
-			offset = f.readlines()[-1].split(',')[0]	# First element of last row in csv
-			if offset != 'id':	# Checks if csv is empty apart from header row
+			lines = list(csv.reader(f))
+			writer = csv.writer(open(logFile, 'w', encoding='utf-8', newline=''))
+			for line in lines:
+				if line == lines[1]:
+					line[2] = members
+					line[3] = topID
+				writer.writerow(line)
+			offset = lines[-1][0]	# First element of last row in csv
+			if offset != 'id':		# Checks if csv is empty apart from header row
 				minimum = int(offset)
 				offset = minimum+100
 				
@@ -159,10 +167,11 @@ for title, username, members, topID in zip(groupTitles, groupUsernames, groupMem
 					
 		# If message block was deleted, increment by 100 to next block
 		else:
-			if round(minimum, -2) % 1000 == 0:
-				print('Group', username, 'at ID:', minimum, 'of', topID, 'Skipping Deleted Messages')
-			minimum = offset
-			offset += 100
+			if not minimum >= topID:
+				if round(minimum, -2) % 1000 == 0:
+					print('Group', username, 'at ID:', minimum, 'of', topID, 'Skipping Deleted Messages')
+				minimum = offset
+				offset += 100
 			
 		# Break while loop if done then move onto next group
 		if minimum >= topID:
