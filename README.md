@@ -19,9 +19,29 @@ WARNING: Data will be appended to the .csv file if re-ran.
 
 
 
+# telegramHTMLExport
+Similar to telegram.py, this script will crawl and save all messages from a Telegram group or channel that has been exported as html files. This allows a user to export the chats from any group or channel without joining. It also doesn't rely on an outside package and is able to 100% accuratly find all URL hrefs.
+
+Using the telegram desktop app, click the three verticle dots on the top-middle of the page and select 'Export Chat History'. Select preferred options, set export path, and click Export.
+
+Export results are saved as .html files. This script ignores all other generated files. (.js .css)
+
+Once crawled the script will run urlValidator.py using the command line arguments.
+
+
+
 # urlValidator
 Given a .csv with urls, this script will return a .csv with validated urls using requests to determine the status code (200)
-It will also return urls in expanded form. (Expands bit.ly urls)
+It will also return urls in expanded form (Expands bit.ly urls), their domain name, and the top 20 most common domain names.
+
+This file has command line argument support:
+```
+-c Column index containing urls
+-f Input filename path
+-h Lists help info and possible arguments
+
+Example:  $python urlValidator.py -c 5 -f filename.csv
+```
 
 This is a threaded version of what is baked into telegram.py using the variable urlValidate = True.
 The threaded version is much faster and returns a simple .csv with the urls in one column.
