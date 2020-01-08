@@ -148,7 +148,7 @@ for title, username, members, topID in zip(groupTitles, groupUsernames, groupMem
 							try:
 								if url[:4] != 'http':
 									url = 'http://' + url
-								request = requests.get(url)
+								request = requests.get(url, timeout=30)
 								if int(request.status_code) < 400:
 									validUrls.append(request.url)
 							except requests.exceptions.ConnectionError:
