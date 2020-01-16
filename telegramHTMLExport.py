@@ -31,8 +31,10 @@ Tk().withdraw()
 inputDir = filedialog.askdirectory(initialdir=os.getcwd(), title='Select Folder')+'/'
 print('Input Dir:', inputDir, '\n')
 
+translate = False
 urlValidate = True
-print('URL Validation =', urlValidate)
+print('Translation =', translate)
+print('URL Validation =', urlValidate, '\n')
 
 # Check for 'messages.html' and rename file to 'messages1.html'
 for file in glob.glob(inputDir + '/*.html'):
@@ -95,7 +97,12 @@ for file in sorted(glob.glob(inputDir + '/*.html'), key=lambda f: int(f[len(inpu
 				
 			writer.writerow([messageId, replyToMsg, replyToUser, username, timestamp, message, ','.join(map(str, urls))])
 
+# Runs 'seleniumTranslate.py' with arguments -c -l and -f
+if translate:
+	print('Translating Messages...\n')
+	os.system(sys.executable + ' seleniumTranslate.py -c 5 -l "uk" -f "' + logFile + '"')
+
 # Runs 'urlValidator.py' with arguments -c and -f
 if urlValidate:
 	print('\nValidating URLs...\n')
-	os.system(sys.executable + ' urlValidator.py -c 6 -f ' + '"' + logFile + '"')
+	os.system(sys.executable + ' urlValidator.py -c 6 -f "' + logFile + '"')
