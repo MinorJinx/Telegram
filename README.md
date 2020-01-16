@@ -47,3 +47,15 @@ This is a threaded version of what is baked into telegram.py using the variable 
 The threaded version is much faster and returns a simple .csv with the urls in one column.
 
 WARNING: Data will be appended to the .csv file if re-ran.
+
+
+
+# seleniumTranslate
+Given a .csv with text, this script will return a .csv with translated text. It requires the input language to be defined as a country code: ('uk' is Ukranian)
+
+Once run, the messages are sent to a .html file and loaded into Chrome using Selenium. It waits for a user to click 'Translate' on Chrome and then press enter in the console. If the page auto translates and says 'Show original' then press enter in the console. It then slowly scrolls through the page and translates the text fields. After scrolling through the document, the now translated text is saved to a .csv
+
+Lower 'scrollAmount' if your screen is less than 1080px in height.
+Enter the column to translate, language, and input filename.
+
+WARNING: Data in .csv will be overwritten if re-ran.
